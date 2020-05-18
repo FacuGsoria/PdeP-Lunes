@@ -52,7 +52,7 @@ cobrarAlquileres unParticipante = ((cambiarDinero ( + ((cantidadPropiedadesCaras
 
 pagarAAccionista :: Accion
 pagarAAccionista unParticipante 
-    | esAccionista unParticipante = cambiarDinero  ( + 50 )    unParticipante
+    | esAccionista unParticipante = cambiarDinero  ( + 200 )    unParticipante
     | otherwise                   = cambiarDinero (+ (- 100) ) unParticipante
 
 
