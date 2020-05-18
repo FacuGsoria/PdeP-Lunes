@@ -45,8 +45,14 @@ hacerBerrinchePor :: Propiedad -> Accion
 hacerBerrinchePor unaPropiedad unParticipante = (subastar unaPropiedad .(gritar . cambiarDinero ( + 10 ))) unParticipante
 
 
+subastar' :: Propiedad -> Accion
+subastar unaPropiedad unParticipante = 
+    | esAccionistaOOferenteSingular unParticipante =
+         (agregarPropiedad unaPropiedad . cambiarDinero (+ ( - (precioPropiedad unaPropiedad)))) unParticipante
+    | otherwise                                     = unParticipante
+
 cobrarAlquileres :: Accion
-cobrarAlquileres unParticipante = ((cambiarDinero ( + ((cantidadPropiedadesCaras unParticipante) * 30))) . (cambiarDinero ( + ((cantidadPropiedadesBaratas unParticipante) * 20))))  unParticipante
+cobrarAlquileres unParticipante = ((cambiarDinero ( + ((cantidadTipoPropiedad esPropiedadCara unParticipante) * 30))) . (cambiarDinero ( + ((cantidadTipoPropiedad esPropiedadBarata unParticipante) * 20))))  unParticipante
 
 
 
@@ -113,6 +119,9 @@ cantidadPropiedadesBaratas unParticipante = (length . filter esPropiedadBarata) 
 cantidadPropiedadesCaras :: Participante -> Int
 cantidadPropiedadesCaras unParticipante   = (length . filter esPropiedadCara)   (propiedadesCompradas unParticipante)
 
+
+cantidadTipoPropiedad :: (Propiedad -> Bool) -> Participante -> Int
+cantidadTipoPropiedad funcion unParticipante = (length . filter funcion)   (propiedadesCompradas unParticipante)
 
 leAlcanzaParaComprar :: Propiedad -> Participante -> Bool
 leAlcanzaParaComprar unaPropiedad unParticipante = (cantidadDeDinero unParticipante) >= precioPropiedad unaPropiedad
